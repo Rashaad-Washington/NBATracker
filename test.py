@@ -1,3 +1,1 @@
-test = True
-while test == True:
-  print("Hello")
+print("Hello")
