@@ -13,18 +13,7 @@ def findPlayerId(name):
     return playerID["id"]
 
 
-def process_input():
-    p = input()
-    while True:
-        try:
-            line = input()
-        except EOFError:
-            return
-        a = line.find(p)             
-        if a != -1:
-            print(line)
-        if line=='':
-            return
+
 
 
 
@@ -55,9 +44,16 @@ while default == True:
   "10pm3_points": 0,
   "10pm3_3pm": 0
 }
-    option = process_input("\n1. Search the stats for an NBA player\n2. Exit\n")
+    try:
+        option = input("\n1. Search the stats for an NBA player\n2. Exit\n")
+    except EOFError as e:
+        print(e)
     if option == "1":
-        playerName = process_input("Please enter the first and last name of the player you choose to view stats. ")
+        try:
+            playerName = input("Please enter the first and last name of the player you choose to view stats. ")
+        except EOFError as e:
+            print(e)
+        
         try:
             thisPlayer["playerID"] = findPlayerId(playerName)
         except BaseException: 
@@ -65,7 +61,11 @@ while default == True:
             continue
 
         thisPlayer["playerName"] = playerName
-        thisPlayer["year"] = process_input("Please enter the season year: ")
+        try:
+            thisPlayer["year"] = input("Please enter the season year: ")
+        except EOFError as e:
+            print(e)
+        
         print("Here is a 10-game snapshot for " + playerName + " during the " + str(thisPlayer["year"]) + "-" + str(int(thisPlayer["year"]) + 1) + " season!\n")
         preSnapshot = playergamelog.PlayerGameLog(player_id='' + str(findPlayerId(playerName)), season = str(thisPlayer["year"]),).get_json()
         postSnapshot = json.loads(preSnapshot)
